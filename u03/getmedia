@@ -2,7 +2,7 @@
 
 read a;
 
-if [ $a = '--help' ]; then echo " pre vypis odkazov na obrazky pouzite './getmedia -s ', pre vypis odkazov na zvuky pouzite './getmedia -i' ";
+if [ $a = '--help' ]; then echo " pre vypis odkazov na obrazky pouzite './getmedia -i ', pre vypis odkazov na zvuky pouzite './getmedia -s' ";
 elif [ $a = '-i' ]; then grep -e jpg -e png -e svg *.html;
 elif [ $a = '-s' ]; then grep -e wav -e mp3 -e ogg *.html;
 else cat *.html;fi;
