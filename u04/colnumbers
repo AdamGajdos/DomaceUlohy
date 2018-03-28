@@ -1,0 +1,4 @@
+#!/bin/sh
+cat ~/DomaceUlohy/unix18/data/data5.csv > data5.csv;
+rm data6.csv;
+for i in $(seq 10);do cat data5.csv | head -n 1 | cut -f"$i" | nl >> data6.csv; done
