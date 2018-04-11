@@ -1,0 +1,8 @@
+#!/bin/sh
+
+ZmenVelkePismena()
+{
+for $1 in *;do s|grep -v "[a-z]" | sed -e -i 's/'"[a-z]"'/'"[A-Z]"'/g';done;
+}
+if [$# -eq 0];then pomocna=$(pwd); ZmenVelkePismena "$pomocna"; 
+else[$# -gt 1] && [$1!= '-r'];then while [$# > 0];do pomocna= readlink -f $1; ZmenVelkePismena "$pomocna";shift;done;fi;
