@@ -14,6 +14,6 @@ for $1 in *;do ls -n |grep -v "[A-Z -]*" | sed -e -i 's/'"[A-Z -]*"'/'"[a-z -]*"
 if [$# -eq 0];then pomocna=$(pwd); ZmenVelkePismena $pomocna; 
 elif [$# -eq 1] && [$1 = '-r'];pomocna=$(pwd);ZmenMalePismena $pomocna;
 elif[$# -gt 1] && [$1 != '-r'];then while [$# > 0];do pomocna= readlink -f $1; ZmenVelkePismena $pomocna;shift;done;
-elif[$# -gt 1] && [$1 = '-r'];then while [$# > 0]; do pomocna= readlink -f $1; ZmenMalePismena $pomocna;shift;done;
+elif[$# -gt 1] && [$1 = '-r'];shift;hen while [$# > 0]; do pomocna= readlink -f $1; ZmenMalePismena $pomocna;shift;done;
 else echo '...' > &2
 fi;
