@@ -1,0 +1,6 @@
+#!/bin/sh
+vstup= readlink -f $1
+vystup= readlink -f $2
+git add --patch $vstup
+diff  --git a/"$vstup" b/"$vstup" > "$vystup"
+csplit -f subor $vystup diff -u -r a/"$vystup" b/"$vystup"
