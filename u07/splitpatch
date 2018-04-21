@@ -1,6 +1,21 @@
 #!/bin/sh
 vstup= readlink -f $1
 vystup= readlink -f $2
-git add --patch $vstup
-diff  --git a/"$vstup" b/"$vstup" > "$vystup"
-csplit -f subor $vystup diff -u -r a/"$vystup" b/"$vystup"
+
+grep 'diff --git' $vstup | sed -r 's/\b\/[a-zA-Z. /]{1,20}//g' > pom.txt
+sed 's/src\///g' pom.txt > pom2.txt
+sed 's/man\///g' pom2.txt > pom.txt
+sed 's/diff --git a\///g' pom.txt > pom2.txt
+
+awk '/diff/{i++}{print > "subor"i}' $vstup
+
+for i in $(seq 23);do sed -r 's/\ /\.patch/g' pom2.txt >> pom3.txt
+
+
+for i in $(seq 23);do a= sed -n $i"p" < pom3.txt; mv subor$i $vystup/$a;done
+
+for i in$(seq 23);do rm -f subor$i;done
+
+rm pom.txt
+rm pom2.txt
+rm pom3.txt
