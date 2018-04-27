@@ -6,6 +6,8 @@ TEMPORdir= mktemp -p ~/DomaceUlohy/u07 -d
 
 csplit -f xxx -n1 $vstup /^diff/ {*} >> "$TEMPORdir"
 
-for i in $(seq 23);do meno= head -n1 xxx$i < "$TEMPORdir" | cut -d " " -f3 | sed 's/a\///g';mv "$TEMPORdir"/"xxx$i" "$vystup"/$meno".patch";done
+pocet= ls "$TEMPORdir" | wc -l
+
+for i in $(seq $pocet);do meno= head -n1 xxx$i < "$TEMPORdir" | cut -d " " -f3 | sed 's/a\///g';mv "$TEMPORdir"/"xxx$i" "$vystup"/$meno".patch";done
 
 rm -rf $TEMPORdir
