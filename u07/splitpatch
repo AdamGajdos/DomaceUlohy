@@ -2,20 +2,10 @@
 vstup= readlink -f $1
 vystup= readlink -f $2
 
-grep 'diff --git' $vstup | sed -r 's/\b\/[a-zA-Z. /]{1,20}//g' > pom.txt
-sed 's/src\///g' pom.txt > pom2.txt
-sed 's/man\///g' pom2.txt > pom3.txt
-sed 's/diff --git a\///g' pom3.txt > pom2.txt
+TEMPORdir= mktemp -p ~/DomaceUlohy/u07 -d 
 
-for i in $(seq 23);do a= sed -n $i"p" < pom.txt; csplit -d -f subor $vstup /"diff --git a\/$a\ b\/$a"/;done
+csplit -f xxx -n1 $vstup /^diff/ {*} >> "$TEMPORdir"
 
-for i in $(seq 23);do sed -r 's/\ /\.patch/g' pom2.txt >> pom4.txt
+for i in $(seq 23);do meno= head -n1 xxx$i < "$TEMPORdir" | cut -d " " -f3 | sed 's/a\///g';mv "$TEMPORdir"/"xxx$i" "$vystup"/$meno".patch";done
 
-
-for i in $(seq 23);do a= sed -n $i"p" < pom4.txt; mv subor$i $vystup/$a;done
-
-for i in$(seq 23);do rm -f subor$i;done
-
-rm pom.txt
-rm pom2.txt
-rm pom3.txt
+rm -rf $TEMPORdir
