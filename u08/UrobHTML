@@ -1,0 +1,14 @@
+#!/bin/bash
+nazov=$1
+touch $(nazov).html
+echo "<body>" > $(nazov).html
+for i in * 
+do 
+ if [ "$i" != 'UrobHTML' ] && [ "$i" != "$nazov.html" ]
+	then
+	  convert -thumbnail 100x100 $(i).jpg $(i).thumb.jpg
+	  echo "<a href="$i"><img src="$i".thumb.jpg></a>" >> $(nazov).html
+	else echo""  
+ fi
+done
+echo "</body>" >> $(nazov).html
