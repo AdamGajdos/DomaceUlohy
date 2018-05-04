@@ -1,13 +1,11 @@
-#!/bin/sh
-vstup= readlink -f $1
-vystup= readlink -f $2
+#!/bin/bash
+vstup= readlink -f "$1"
+vystup= readlink -f "$2"
 
-TEMPORdir= mktemp -p ~/DomaceUlohy/u07 -d 
+TEMPORdir= mktemp -p /tmp/ -d 
 
-csplit -f xxx -n1 $vstup /^diff/ {*} >> "$TEMPORdir"
+csplit -n1 -f "$TEMPORdir"/xxx  "$vstup" /^diff/ {*}
 
-pocet= ls "$TEMPORdir" | wc -l
+for i in `$TEMPORdir`;do meno= head -n1 xxx$(i) | cut -d " " -f3 | sed 's/a\///g';mv "$(TEMPORdir)"/"xxx$(i)" "$(vystup)"/$(meno)".patch";done
 
-for i in $(seq $pocet);do meno= head -n1 xxx$i < "$TEMPORdir" | cut -d " " -f3 | sed 's/a\///g';mv "$TEMPORdir"/"xxx$i" "$vystup"/$meno".patch";done
-
-rm -rf $TEMPORdir
+rm -rf `$TEMPORdir`
