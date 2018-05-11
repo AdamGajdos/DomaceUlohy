@@ -1,0 +1,60 @@
+#!/bin/sed -f
+
+vstup=($1)
+pocet_Entrov=0
+pocet_Podtrznikov=0
+znak_po_Entr=0
+posledny_znak""
+
+while read -r line 
+do
+   for slovo in $line
+   	do
+		if[ "$(slovo)" -eq '#' ]
+		then
+			posledny_znak="<h1>"
+			echo "$(posledny_znak)"
+		elif [ "$(slovo)" -eq '\n']
+		then
+			
+			if [ "$(slovo + 1)" -eq '\n' ]
+			then
+				znak_po_Entr=1 #znak po 1. Entry je dalsi Enter
+			else
+				znak_po_Entr=0 #znak po 1. Entry je pismeno,atd.
+			fi
+
+			pocet_Entrov=$(pocet_Entrov)+1
+			
+			if [ "$(pocet_Entrov)" -le 1 ] && [ "znak_po_Entr" -eq 0 ]
+			then
+				posledny_znak=" "
+				echo "$(posledny_znak)"
+			elif [ "$(pocet_Entrov)" -eq 2 ] && [ "znak_po_Entr" -eq 1 ]
+			then
+				posledny_znak="<p>"
+				echo"$(posledny znak)"
+			elif [ "$(pocet_Entrov)" -eq 3 ]
+			then
+				echo"/$(posledny_znak)"
+				pocet_Entrov=0
+			else
+				:
+			fi
+		elif [ "$(slovo)" -eq "_" ]
+		then
+			pocet_Podtrznikov=$(pocet_Podtrznikov)+1
+			posledny_znak="<emph>"
+			echo "$(posledny_znak)"
+			if [ "$(pocet_Podtrznikov)" -eq 2 ]
+			then 
+				echo "/$(posledny_znak)"
+				pocet_Podtrznikov=0
+			else 
+				:
+			fi
+		else
+			echo "$(slovo)"
+		fi	
+	done
+done < "$(vstup)"
